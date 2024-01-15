@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ozzy & Drix Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="story"></div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+let story = {
+    start: "start",
+    nodes: {
+        start: {
+            text: "Ozzy and Drix are on a mission to explore the metastasis of SCLC. Choose your path:",
+            choices: [
+                { text: "Follow the cancer cell to the liver", nextNode: "liverPath" },
+                { text: "Learn more about the metastatic process", nextNode: "metastasisInfo" }
+            ]
+        },
+        liverPath: {
+            text: "You follow the cancer cell to the liver. What do you want to do?",
+            choices: [
+                { text: "Attempt to hinder metastasis", nextNode: "hinderMetastasis" },
+                { text: "Continue observing", nextNode: "observeLiver" }
+            ]
+        },
+        hinderMetastasis: {
+            text: "You successfully hinder the metastatic process. Well done!",
+            choices: [
+                { text: "Start a new adventure", nextNode: "start" }
+            ]
+        },
+        observeLiver: {
+            text: "You choose to continue observing. The cancer cell continues to grow in the liver.",
+            choices: [
+                { text: "Restart the adventure", nextNode: "start" }
+            ]
+        },
+        metastasisInfo: {
+            text: "You learn more about the metastatic process. It involves the spread of cancer cells from one part of the body to another.",
+            choices: [
+                { text: "Go back to the start", nextNode: "start" }
+            ]
+        }
+    }
+};
+
+function renderStory(nodeId) {
+    let currentNode = story.nodes[nodeId];
+    document.getElementById("story").innerHTML = `<p>${currentNode.text}</p>`;
+    currentNode.choices.forEach(choice => {
+        document.getElementById("story").innerHTML += `<button onclick="renderStory('${choice.nextNode}')">${choice.text}</button>`;
+    });
+}
+
+renderStory(story.start);
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+button {
+    margin: 10px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
